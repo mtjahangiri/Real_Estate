@@ -67,7 +67,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   email = value;
                   print(email);
                 },
-                decoration: kTextFieldDecoration.copyWith(hintText: 'Enter your email'),
+                decoration: kTextFieldDecoration.copyWith(hintText: 'ایمیل'),
               ),
               SizedBox(
                 height: 8.0,
@@ -79,14 +79,14 @@ class _LoginScreenState extends State<LoginScreen> {
                   password = value;
                   print(password);
                 },
-                decoration: kTextFieldDecoration.copyWith(hintText: 'Enter your password'),
+                decoration: kTextFieldDecoration.copyWith(hintText: 'رمز عبور'),
               ),
               SizedBox(
                 height: 24.0,
               ),
               RoundedButton(
                 color: Colors.lightBlueAccent,
-                title: 'Log In',
+                title: 'ورود',
                 onPressed: () async {
                   setState(() {
                     showSpinner = true;
@@ -132,7 +132,7 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
               RoundedButton(
                 color: Colors.blueAccent,
-                title: 'New user? tap to register',
+                title: 'ثبت نام یوزر جدید',
                 onPressed: () {
                   Navigator.pop(context);
                   Navigator.pushNamed(context, RegistrationScreen.id);
@@ -140,7 +140,7 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
               RoundedButton(
                 color: Colors.blueAccent,
-                title: 'sign out',
+                title: 'خروج از حساب کاربری',
                 onPressed: () {
                   _auth.signOut();
                   loggedInUser = null;

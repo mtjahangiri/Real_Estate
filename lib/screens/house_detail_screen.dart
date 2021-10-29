@@ -102,13 +102,13 @@ class HouseDetailScreen extends StatelessWidget {
                         context: context,
                         builder: (context) {
                           return AlertDialog(
-                            title: Text('You Should login first'),
+                            title: Text('ابتدا وارد حساب خود شوید'),
                             titleTextStyle: TextStyle(
                                 fontSize: 17, color: Colors.indigo),
                             actions: [
                               TextButton(
                                 child: Text(
-                                  'Cancel',
+                                  'لغو',
                                   style: TextStyle(
                                       fontSize: 17,
                                       color: Colors.lightBlueAccent),
@@ -119,7 +119,7 @@ class HouseDetailScreen extends StatelessWidget {
                               ),
                               TextButton(
                                 child: Text(
-                                  'Log in',
+                                  'ورود به حساب',
                                   style: TextStyle(
                                       fontSize: 17,
                                       color: Colors.lightBlueAccent),

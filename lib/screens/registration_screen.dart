@@ -65,7 +65,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                   print(name);
                 },
                 decoration: kTextFieldDecoration.copyWith(
-                    hintText: 'Enter your name'),
+                    hintText: 'نام'),
               ),
               SizedBox(
                 height: 8.0,
@@ -79,7 +79,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                   print(phoneNo);
                 },
                 decoration: kTextFieldDecoration.copyWith(
-                    hintText: 'Enter your phone number'),
+                    hintText: 'موبایل'),
               ),
               SizedBox(
                 height: 8.0,
@@ -93,7 +93,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                   print(email);
                 },
                 decoration:
-                kTextFieldDecoration.copyWith(hintText: 'Enter your email'),
+                kTextFieldDecoration.copyWith(hintText: 'ایمیل'),
               ),
               SizedBox(
                 height: 8.0,
@@ -107,14 +107,14 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                   print(password);
                 },
                 decoration: kTextFieldDecoration.copyWith(
-                    hintText: 'Enter your password'),
+                    hintText: 'رمز عبور'),
               ),
               SizedBox(
                 height: 24.0,
               ),
               RoundedButton(
                 color: Colors.blueAccent,
-                title: 'Register',
+                title: 'ثبت نام',
                 onPressed: () async {
                   setState(() {
                     showSpinner = true;
@@ -123,7 +123,8 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                     final newUser = await _auth.createUserWithEmailAndPassword(
                         email: email, password: password);
                     if (newUser != null) {
-                      newUser.user.updateProfile(displayName: name, photoURL: phoneNo);
+                      newUser.user.updateDisplayName(name);
+                      newUser.user.updatePhotoURL(phoneNo);
                       getCurrentUser();
                       Navigator.pop(context);
                     }
