@@ -52,7 +52,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   tag: 'logo',
                   child: Container(
                     height: 200.0,
-                    child: Image.network('https://www.glamtush.com/wp-content/uploads/2017/03/real_estate.jpg'),
+                    child: Image.asset('images/logo.png'),
                   ),
                 ),
               ),

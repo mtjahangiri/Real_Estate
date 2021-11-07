@@ -72,7 +72,6 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
               ),
               TextField(
                 style: TextStyle(color: Colors.white),
-                obscureText: true,
                 textAlign: TextAlign.center,
                 onChanged: (value) {
                   phoneNo = value;
