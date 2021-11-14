@@ -23,6 +23,8 @@ dependencies:
   firebase_auth: ^1.1.2
   intl: ^0.17.0
   persian_fonts: ^1.0.4
+  image_picker: ^0.6.0+17
+  shamsi_date: ^1.0.0
 
 
 dev_dependencies:

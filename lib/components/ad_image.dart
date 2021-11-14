@@ -13,15 +13,15 @@ class AdImage extends StatelessWidget {
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.done) {
             return Container(
-              //width: MediaQuery.of(context).size.width/5,
+              //width: 200,
               child: snapshot.data,
             );
           }
           if (snapshot.connectionState == ConnectionState.waiting) {
             return Container(
-                color: Color(0xff101528),
-                width: MediaQuery.of(context).size.width / 5,
-                height: MediaQuery.of(context).size.width / 5,
+                color: Colors.grey,
+                width: 150,
+                height: 150,
                 child: Center(child: CircularProgressIndicator()));
           }
           return Container();
@@ -46,7 +46,7 @@ Future<Widget> _getImage(BuildContext context, String imageName) async {
   await FireStorageService.loadImage(context, imageName).then((value) {
     image = Image.network(
       value.toString(),
-      fit: BoxFit.scaleDown,
+      fit: BoxFit.cover,
     );
   });
   return image;

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'screens/home_screen.dart';
+import 'screens/addAd_screen.dart';
 import 'package:real_estate/screens/house_detail_screen.dart';
 import 'package:real_estate/screens/login_Screen.dart';
 import 'screens/registration_screen.dart';
@@ -43,6 +44,7 @@ class RealEstate extends StatelessWidget {
       routes: {
         HouseDetailScreen.id: (context) => HouseDetailScreen(),
         LoginScreen.id: (context) => LoginScreen(),
+    AddAdScreen.id: (context) => AddAdScreen(),
         RegistrationScreen.id: (context) => RegistrationScreen(),
       },
     );
