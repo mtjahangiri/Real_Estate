@@ -155,7 +155,6 @@ class _LoginScreenState extends State<LoginScreen> {
                   color: Colors.blueAccent,
                   title: 'ثبت نام کاربر جدید',
                   onPressed: () {
-                    Navigator.pop(context);
                     Navigator.pushNamed(context, RegistrationScreen.id);
                   },
                 ),

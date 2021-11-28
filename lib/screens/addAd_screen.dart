@@ -34,7 +34,7 @@ class _AddAdScreenState extends State<AddAdScreen> {
   type = 'آپارتمان مسکونی';
 
   Future chooseFile() async {
-    await ImagePicker.pickImage(source: ImageSource.gallery, imageQuality: 100).then((image) {
+    await ImagePicker.pickImage(source: ImageSource.gallery, imageQuality: 30).then((image) {
       setState(() {
         _image = image;
       });
@@ -68,10 +68,10 @@ class _AddAdScreenState extends State<AddAdScreen> {
       child: Scaffold(
         backgroundColor: Colors.white,
         appBar: AppBar(
-          backgroundColor: Colors.white,
+          backgroundColor: Color(0xff18004d),
           title: Text(
             'افزودن آگهی',
-            style: PersianFonts.Samim.copyWith(fontSize: 18, color: Colors.black),
+            style: PersianFonts.Samim.copyWith(fontSize: 18),
           ),
         ),
         body: ModalProgressHUD(
@@ -262,9 +262,10 @@ class _AddAdScreenState extends State<AddAdScreen> {
                       showSpinner = true;
                     });
                     try {
-                      firestore.collection(type).add({
+                      firestore.collection('Ads').add({
                         'title': title,
                         'condition': condition,
+                        'type': type,
                         'city': city,
                         'area': area,
                         'price': price,
@@ -272,7 +273,8 @@ class _AddAdScreenState extends State<AddAdScreen> {
                         'details': details,
                         'image': '${Path.basename(_image.path)}',
                         'phoneNo': loggedInUser.photoURL,
-                        'seller': loggedInUser.displayName,
+                        'ownerName': loggedInUser.displayName,
+                        'owner': loggedInUser.uid,
                         'date': format(Jalali.now()),
                         'date1': DateTime.now(),
                       });

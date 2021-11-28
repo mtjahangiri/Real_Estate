@@ -1,5 +1,4 @@
 import 'package:real_estate/constants.dart';
-import 'login_Screen.dart';
 import 'package:flutter/material.dart';
 import 'package:real_estate/components/roundedButton.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -14,24 +13,11 @@ class RegistrationScreen extends StatefulWidget {
 
 class _RegistrationScreenState extends State<RegistrationScreen> {
   final _auth = FirebaseAuth.instance;
-  String email='';
-  String password='';
-  String name='';
-  String phoneNo='';
+  String email = '';
+  String password = '';
+  String name = '';
+  String phoneNo = '';
   bool showSpinner = false;
-
-  void getCurrentUser() async {
-    try {
-      final user = await _auth.currentUser;
-      if (user != null) {
-        loggedInUser = user;
-        print(loggedInUser.email);
-        print(loggedInUser.displayName);
-      }
-    } catch (e) {
-      print(e);
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -63,8 +49,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                     name = value;
                     print(name);
                   },
-                  decoration: kTextFieldDecoration.copyWith(
-                      hintText: 'نام'),
+                  decoration: kTextFieldDecoration.copyWith(hintText: 'نام'),
                 ),
                 SizedBox(
                   height: 8.0,
@@ -76,8 +61,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                     phoneNo = value;
                     print(phoneNo);
                   },
-                  decoration: kTextFieldDecoration.copyWith(
-                      hintText: 'موبایل'),
+                  decoration: kTextFieldDecoration.copyWith(hintText: 'موبایل'),
                 ),
                 SizedBox(
                   height: 8.0,
@@ -90,8 +74,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                     email = value;
                     print(email);
                   },
-                  decoration:
-                  kTextFieldDecoration.copyWith(hintText: 'ایمیل'),
+                  decoration: kTextFieldDecoration.copyWith(hintText: 'ایمیل'),
                 ),
                 SizedBox(
                   height: 8.0,
@@ -104,8 +87,8 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                     password = value;
                     print(password);
                   },
-                  decoration: kTextFieldDecoration.copyWith(
-                      hintText: 'رمز عبور'),
+                  decoration:
+                      kTextFieldDecoration.copyWith(hintText: 'رمز عبور'),
                 ),
                 SizedBox(
                   height: 24.0,
@@ -113,41 +96,88 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                 RoundedButton(
                   color: Color(0xff18004d),
                   title: 'ثبت نام',
-                  onPressed: () async { if(email != '' && password != ''&&name != '' && phoneNo != ''){
-                    setState(() {
-                      showSpinner = true;
-                    });
-                    try {
-                      final newUser = await _auth.createUserWithEmailAndPassword(
-                          email: email, password: password);
-                      if (newUser != null) {
-                        newUser.user.updateDisplayName(name);
-                        newUser.user.updatePhotoURL(phoneNo);
-                        //loggedInUser = newUser.user;
-                        getCurrentUser();
-                        Navigator.pop(context);
+                  onPressed: () async {
+                    if (email != '' &&
+                        password != '' &&
+                        name != '' &&
+                        phoneNo != '') {
+                      setState(() {
+                        showSpinner = true;
+                      });
+                      try {
+                        final newUser =
+                            await _auth.createUserWithEmailAndPassword(
+                                email: email, password: password);
+                        if (newUser != null) {
+                          newUser.user.updateDisplayName(name);
+                          newUser.user.updatePhotoURL(phoneNo);
+                          showDialog(
+                              context: context,
+                              builder: (context) {
+                                return AlertDialog(
+                                  title: Text('لطفا با وارد کردن ایمیل و رمز عبور، وارد حساب کاربری خود شوید'),
+                                  titleTextStyle: TextStyle(
+                                      fontSize: 17, color: Colors.black),
+                                  actions: [
+                                    TextButton(
+                                      child: Text(
+                                        'تایید',
+                                        style: TextStyle(
+                                            fontSize: 17,
+                                            color: Color(0xff18004d)),
+                                      ),
+                                      onPressed: () {
+                                        Navigator.pop(context);
+                                      },
+                                    ),
+                                  ],
+                                );
+                              });
+                          Navigator.pop(context);
+                        }
+                        setState(() {
+                          showSpinner = false;
+                        });
+                      } catch (e) {
+                        setState(() {
+                          showSpinner = false;
+                        });
+                        String error = e.toString();
+                        showDialog(
+                            context: context,
+                            builder: (context) {
+                              return AlertDialog(
+                                title: Text(error),
+                                titleTextStyle: TextStyle(
+                                    fontSize: 17, color: Colors.indigo),
+                                content: TextButton(
+                                  child: Text(
+                                    'تایید',
+                                    style: TextStyle(
+                                        fontSize: 17,
+                                        color: Colors.lightBlueAccent),
+                                  ),
+                                  onPressed: () {
+                                    Navigator.pop(context);
+                                  },
+                                ),
+                              );
+                            });
+                        print(e);
                       }
-                      setState(() {
-                        showSpinner = false;
-                      });
-                    } catch (e) {
-                      setState(() {
-                        showSpinner = false;
-                      });
-                      String error = e.toString();
+                    } else {
                       showDialog(
                           context: context,
                           builder: (context) {
                             return AlertDialog(
-                              title: Text(error),
-                              titleTextStyle: TextStyle(
-                                  fontSize: 17, color: Colors.indigo),
+                              title: Text("لطفا اطلاعات را کامل وارد کنید"),
+                              titleTextStyle:
+                                  TextStyle(fontSize: 17, color: Colors.black),
                               content: TextButton(
                                 child: Text(
-                                  'OK',
+                                  'تایید',
                                   style: TextStyle(
-                                      fontSize: 17,
-                                      color: Colors.lightBlueAccent),
+                                      fontSize: 17, color: Color(0xff18004d)),
                                 ),
                                 onPressed: () {
                                   Navigator.pop(context);
@@ -155,31 +185,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                               ),
                             );
                           });
-                      print(e);
                     }
-                  }
-                  else{
-                    showDialog(
-                        context: context,
-                        builder: (context) {
-                          return AlertDialog(
-                            title: Text("لطفا اطلاعات را کامل وارد کنید"),
-                            titleTextStyle: TextStyle(
-                                fontSize: 17, color: Colors.black),
-                            content: TextButton(
-                              child: Text(
-                                'OK',
-                                style: TextStyle(
-                                    fontSize: 17,
-                                    color: Color(0xff18004d)),
-                              ),
-                              onPressed: () {
-                                Navigator.pop(context);
-                              },
-                            ),
-                          );
-                        });
-                  }
                   },
                 ),
               ],

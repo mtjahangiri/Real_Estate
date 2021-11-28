@@ -77,13 +77,13 @@ class HouseDetailScreen extends StatelessWidget {
                             return AlertDialog(
                               title: Text('${selectedAd['phoneNo']}'),
                               titleTextStyle: TextStyle(
-                                  fontSize: 17, color: Colors.indigo),
+                                  fontSize: 17, color: Colors.black),
                               content: TextButton(
                                 child: Text(
                                   'OK',
                                   style: TextStyle(
                                       fontSize: 17,
-                                      color: Colors.lightBlueAccent),
+                                      color: Color(0xff18004d)),
                                 ),
                                 onPressed: () {
                                   Navigator.pop(context);
@@ -99,14 +99,14 @@ class HouseDetailScreen extends StatelessWidget {
                             return AlertDialog(
                               title: Text('ابتدا وارد حساب کاربری خود شوید'),
                               titleTextStyle: TextStyle(
-                                  fontSize: 17, color: Colors.indigo),
+                                  fontSize: 17, color: Colors.black),
                               actions: [
                                 TextButton(
                                   child: Text(
                                     'لغو',
                                     style: TextStyle(
                                         fontSize: 17,
-                                        color: Colors.lightBlueAccent),
+                                        color: Color(0xff18004d)),
                                   ),
                                   onPressed: () {
                                     Navigator.pop(context);
@@ -117,7 +117,7 @@ class HouseDetailScreen extends StatelessWidget {
                                     'ورود به حساب',
                                     style: TextStyle(
                                         fontSize: 17,
-                                        color: Colors.lightBlueAccent),
+                                        color: Color(0xff18004d)),
                                   ),
                                   onPressed: () {
                                     Navigator.pop(context);

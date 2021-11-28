@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:real_estate/components/ad_image.dart';
+import 'package:real_estate/screens/ad_manage_screen.dart';
 import 'house_detail_screen.dart';
 import 'addAd_screen.dart';
 import 'package:real_estate/screens/login_Screen.dart';
@@ -7,11 +8,11 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:persian_fonts/persian_fonts.dart';
 
 
-int index = 0;
+//int index = 0;
 DocumentSnapshot selectedAd;
 
 final firestore = FirebaseFirestore.instance;
-String order = '';
+
 
 class HomeScreen extends StatefulWidget {
   static const String id = 'home_screen';
@@ -167,8 +168,8 @@ class _HomeScreenState extends State<HomeScreen> {
               flex: 10,
               child: StreamBuilder(
                 stream: firestore
-                    .collection(Type)
-                    .where('condition', isEqualTo: Condition).where('city', isEqualTo: City)
+                    .collection('Ads')
+                    .where('type', isEqualTo: Type).where('condition', isEqualTo: Condition).where('city', isEqualTo: City)
                     .snapshots(),
                 builder: (context, snapshot) {
                   if (!snapshot.hasData) return const Text('Loading...');
@@ -243,6 +244,53 @@ class _HomeScreenState extends State<HomeScreen> {
                     },
                     icon: Icon(
                       Icons.add_circle,
+                      color: Color(0xff18004d),
+                      size: 35,
+                    ),
+                  ),
+                  IconButton(
+                    onPressed: () {
+                      if(loggedInUser == null){
+                        showDialog(
+                            context: context,
+                            builder: (context) {
+                              return AlertDialog(
+                                title: Text('ابتدا وارد حساب کاربری خود شوید'),
+                                titleTextStyle: TextStyle(
+                                    fontSize: 17, color: Colors.black),
+                                actions: [
+                                  TextButton(
+                                    child: Text(
+                                      'لغو',
+                                      style: TextStyle(
+                                          fontSize: 17,
+                                          color: Color(0xff18004d)),
+                                    ),
+                                    onPressed: () {
+                                      Navigator.pop(context);
+                                    },
+                                  ),
+                                  TextButton(
+                                    child: Text(
+                                      'ورود به حساب',
+                                      style: TextStyle(
+                                          fontSize: 17,
+                                          color: Color(0xff18004d)),
+                                    ),
+                                    onPressed: () {
+                                      Navigator.pop(context);
+                                      Navigator.pushNamed(
+                                          context, LoginScreen.id);
+                                    },
+                                  ),
+                                ],
+                              );
+                            });
+                      }
+                      else Navigator.pushNamed(context, ManageScreen.id);
+                    },
+                    icon: Icon(
+                      Icons.notes_sharp,
                       color: Color(0xff18004d),
                       size: 35,
                     ),
