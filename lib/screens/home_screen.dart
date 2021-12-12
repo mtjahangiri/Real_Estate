@@ -4,6 +4,7 @@ import 'package:real_estate/screens/ad_manage_screen.dart';
 import 'house_detail_screen.dart';
 import 'addAd_screen.dart';
 import 'account_manage_screen.dart';
+import 'search_screen.dart';
 import 'package:real_estate/screens/login_screen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -182,13 +183,13 @@ class _HomeScreenState extends State<HomeScreen> {
               flex: 10,
               child: StreamBuilder(
                 stream: firestore
-                    .collection('Ads')
+                    .collection('Ads').orderBy('date1',descending: true)
                     .where('type', isEqualTo: Type)
                     .where('condition', isEqualTo: Condition)
                     .where('city', isEqualTo: City)
                     .snapshots(),
                 builder: (context, snapshot) {
-                  if (!snapshot.hasData) return const Text('Loading...');
+                  if (!snapshot.hasData) return const Text('درحال بارگذاری ...');
                   return ListView.builder(
                     itemCount: snapshot.data.docs.length,
                     itemBuilder: (context, index) =>
@@ -209,7 +210,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 children: [
                   IconButton(
                     onPressed: () {
-                      // Navigator.pushNamed(context, SearchScreen.id);
+                      Navigator.pushNamed(context, SearchScreen.id);
                     },
                     icon: Icon(
                       Icons.search,

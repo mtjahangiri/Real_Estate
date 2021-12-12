@@ -47,6 +47,11 @@ class HouseDetailScreen extends StatelessWidget {
                         ),
                         SizedBox(height: 30,),
                         Text(
+                          "${selectedAd['condition']} ${selectedAd['type']} ${selectedAd['city']}",
+                          style: PersianFonts.Samim.copyWith(fontWeight: FontWeight.w700,fontSize: 18 , color: Colors.black),
+                        ),
+                        Divider(color: Colors.blueGrey),
+                        Text(
                           "قیمت: ${selectedAd['price']} تومان",
                           style: PersianFonts.Samim.copyWith(fontWeight: FontWeight.w700,fontSize: 18 , color: Colors.black),
                         ),

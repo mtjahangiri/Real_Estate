@@ -7,6 +7,7 @@ import 'package:real_estate/screens/login_screen.dart';
 import 'screens/registration_screen.dart';
 import 'screens/ad_manage_screen.dart';
 import 'screens/account_manage_screen.dart';
+import 'screens/search_screen.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
 Future<void> main() async {
@@ -50,6 +51,7 @@ class RealEstate extends StatelessWidget {
         RegistrationScreen.id: (context) => RegistrationScreen(),
         ManageScreen.id: (context) => ManageScreen(),
         AccountScreen.id: (context) => AccountScreen(),
+        SearchScreen.id: (context) => SearchScreen(),
       },
     );
   }

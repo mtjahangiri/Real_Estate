@@ -19,7 +19,6 @@ class AddAdScreen extends StatefulWidget {
 }
 
 class _AddAdScreenState extends State<AddAdScreen> {
-
   bool showSpinner = false;
   File _image;
   String _uploadedFileURL;
@@ -34,7 +33,8 @@ class _AddAdScreenState extends State<AddAdScreen> {
       type = 'آپارتمان مسکونی';
 
   Future chooseFile() async {
-    await ImagePicker.pickImage(source: ImageSource.gallery, imageQuality: 30).then((image) {
+    await ImagePicker.pickImage(source: ImageSource.gallery, imageQuality: 30)
+        .then((image) {
       setState(() {
         _image = image;
       });
@@ -82,24 +82,34 @@ class _AddAdScreenState extends State<AddAdScreen> {
               // mainAxisAlignment: MainAxisAlignment.center,
               // crossAxisAlignment: CrossAxisAlignment.stretch,
               children: <Widget>[
-                if(_uploadedFileURL != null)
-                  Card(child: Image.network(_uploadedFileURL, height: 200,))
-                else Container(),
+                if (_uploadedFileURL != null)
+                  Card(
+                      child: Image.network(
+                    _uploadedFileURL,
+                    height: 200,
+                  ))
+                else
+                  Container(),
                 _image == null
                     ? RoundedButton(
-                  title: 'انتخاب عکس',
-                  onPressed: (){chooseFile();},
-                  color: Colors.cyan,
-                )
+                        title: 'انتخاب عکس',
+                        onPressed: () {
+                          chooseFile();
+                        },
+                        color: Colors.cyan,
+                      )
                     : Container(),
                 _image != null
                     ? RoundedButton(
-                        title:'پاک کردن عکس',
+                        title: 'پاک کردن عکس',
                         color: Colors.cyan,
-                        onPressed: () {setState(() {
-                          _image= null;
-                          _uploadedFileURL='https://firebasestorage.googleapis.com/v0/b/real-estate-554a4.appspot.com/o/images%2Fno-image-1771002-1505134.png?alt=media&token=95317d9a-f750-4235-9696-3cdc1b5c3043';
-                        });},
+                        onPressed: () {
+                          setState(() {
+                            _image = null;
+                            _uploadedFileURL =
+                                'https://firebasestorage.googleapis.com/v0/b/real-estate-554a4.appspot.com/o/images%2Fno-image-1771002-1505134.png?alt=media&token=95317d9a-f750-4235-9696-3cdc1b5c3043';
+                          });
+                        },
                       )
                     : Container(),
                 Row(
@@ -186,7 +196,9 @@ class _AddAdScreenState extends State<AddAdScreen> {
                 TextField(
                   style: TextStyle(color: Colors.black),
                   textAlign: TextAlign.center,
-                  onChanged: (value) {title = value;},
+                  onChanged: (value) {
+                    title = value;
+                  },
                   decoration: kTextFieldDecoration,
                 ),
                 SizedBox(
@@ -202,7 +214,9 @@ class _AddAdScreenState extends State<AddAdScreen> {
                   keyboardType: TextInputType.number,
                   maxLength: 7,
                   textAlign: TextAlign.center,
-                  onChanged: (value) {area = value;},
+                  onChanged: (value) {
+                    area = value;
+                  },
                   decoration: kTextFieldDecoration,
                 ),
                 SizedBox(
@@ -217,7 +231,9 @@ class _AddAdScreenState extends State<AddAdScreen> {
                   style: TextStyle(color: Colors.black),
                   textAlign: TextAlign.center,
                   keyboardType: TextInputType.number,
-                  onChanged: (value) {price = value;},
+                  onChanged: (value) {
+                    price = value;
+                  },
                   decoration: kTextFieldDecoration,
                 ),
                 SizedBox(
@@ -233,7 +249,9 @@ class _AddAdScreenState extends State<AddAdScreen> {
                   maxLength: 4,
                   keyboardType: TextInputType.number,
                   textAlign: TextAlign.center,
-                  onChanged: (value) {year = value;},
+                  onChanged: (value) {
+                    year = value;
+                  },
                   decoration: kTextFieldDecoration,
                 ),
                 SizedBox(
@@ -248,7 +266,9 @@ class _AddAdScreenState extends State<AddAdScreen> {
                   style: TextStyle(color: Colors.black),
                   maxLines: 20,
                   textAlign: TextAlign.start,
-                  onChanged: (value) {details = value;},
+                  onChanged: (value) {
+                    details = value;
+                  },
                   decoration: kTextFieldDecoration,
                 ),
                 SizedBox(
@@ -258,48 +278,77 @@ class _AddAdScreenState extends State<AddAdScreen> {
                   color: Colors.cyan,
                   title: 'افزودن',
                   onPressed: () async {
-                    setState(() {
-                      showSpinner = true;
-                    });
-                    try {
-                      firestore.collection('Ads').add({
-                        'title': title,
-                        'condition': condition,
-                        'type': type,
-                        'city': city,
-                        'area': area,
-                        'price': price,
-                        'year': year,
-                        'details': details,
-                        'image': '${Path.basename(_image.path)}',
-                        'phoneNo': currentUser.CurrentUser.photoURL,
-                        'ownerName': currentUser.CurrentUser.displayName,
-                        'owner': currentUser.CurrentUser.uid,
-                        'date': format(Jalali.now()),
-                        'date1': DateTime.now(),
-                      });
+                    if (title != '' &&
+                        condition != '' &&
+                        type != '' &&
+                        area != '' &&
+                        price != '' &&
+                        year != '' &&
+                        Path.basename(_image.path) != '') {
                       setState(() {
-                        showSpinner = false;
+                        showSpinner = true;
                       });
-                      Navigator.pop(context);
-                    } catch (e) {
-                      setState(() {
-                        showSpinner = false;
-                      });
-                      String error = e.toString();
+                      try {
+                        firestore.collection('Ads').add({
+                          'title': title,
+                          'condition': condition,
+                          'type': type,
+                          'city': city,
+                          'area': area,
+                          'price': price,
+                          'year': year,
+                          'details': details,
+                          'image': '${Path.basename(_image.path)}',
+                          'phoneNo': currentUser.CurrentUser.photoURL,
+                          'ownerName': currentUser.CurrentUser.displayName,
+                          'owner': currentUser.CurrentUser.uid,
+                          'date': format(Jalali.now()),
+                          'date1': DateTime.now(),
+                        });
+                        setState(() {
+                          showSpinner = false;
+                        });
+                        Navigator.pop(context);
+                      } catch (e) {
+                        setState(() {
+                          showSpinner = false;
+                        });
+                        String error = e.toString();
+                        showDialog(
+                            context: context,
+                            builder: (context) {
+                              return AlertDialog(
+                                title: Text(error),
+                                titleTextStyle: TextStyle(
+                                    fontSize: 17, color: Colors.indigo),
+                                content: TextButton(
+                                  child: Text(
+                                    'OK',
+                                    style: TextStyle(
+                                        fontSize: 17,
+                                        color: Colors.lightBlueAccent),
+                                  ),
+                                  onPressed: () {
+                                    Navigator.pop(context);
+                                  },
+                                ),
+                              );
+                            });
+                        print(e);
+                      }
+                    } else {
                       showDialog(
                           context: context,
                           builder: (context) {
                             return AlertDialog(
-                              title: Text(error),
+                              title: Text("لطفا اطلاعات را کامل وارد کنید"),
                               titleTextStyle:
-                                  TextStyle(fontSize: 17, color: Colors.indigo),
+                                  TextStyle(fontSize: 17, color: Colors.black),
                               content: TextButton(
                                 child: Text(
-                                  'OK',
+                                  'تایید',
                                   style: TextStyle(
-                                      fontSize: 17,
-                                      color: Colors.lightBlueAccent),
+                                      fontSize: 17, color: Color(0xff18004d)),
                                 ),
                                 onPressed: () {
                                   Navigator.pop(context);
@@ -307,7 +356,6 @@ class _AddAdScreenState extends State<AddAdScreen> {
                               ),
                             );
                           });
-                      print(e);
                     }
                   },
                 ),
