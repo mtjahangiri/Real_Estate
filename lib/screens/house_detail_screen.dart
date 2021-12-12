@@ -4,11 +4,22 @@ import 'package:flutter/cupertino.dart';
 import 'package:real_estate/components/ad_image.dart';
 import 'package:real_estate/components/roundedButton.dart';
 import 'home_screen.dart';
-import 'login_Screen.dart';
+import 'login_screen.dart';
 import 'package:persian_fonts/persian_fonts.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class HouseDetailScreen extends StatelessWidget {
   static const String id = 'house_detail_screen';
+
+
+  Future<void> _makePhoneCall(String phoneNumber) async {
+
+    final Uri launchUri = Uri(
+      scheme: 'tel',
+      path: phoneNumber,
+    );
+    await launch(launchUri.toString());
+  }
   
   @override
   Widget build(BuildContext context) {
@@ -70,7 +81,7 @@ class HouseDetailScreen extends StatelessWidget {
                 RoundedButton(
                   color: Colors.lightBlue,
                   onPressed: () async {
-                    if (loggedInUser != null) {
+                    if (currentUser.CurrentUser != null) {
                       showDialog(
                           context: context,
                           builder: (context) {
@@ -78,21 +89,34 @@ class HouseDetailScreen extends StatelessWidget {
                               title: Text('${selectedAd['phoneNo']}'),
                               titleTextStyle: TextStyle(
                                   fontSize: 17, color: Colors.black),
-                              content: TextButton(
-                                child: Text(
-                                  'OK',
-                                  style: TextStyle(
-                                      fontSize: 17,
-                                      color: Color(0xff18004d)),
+                              actions: [
+                                TextButton(
+                                  child: Text(
+                                    'لغو',
+                                    style: TextStyle(
+                                        fontSize: 17,
+                                        color: Color(0xff18004d)),
+                                  ),
+                                  onPressed: () {
+                                    Navigator.pop(context);
+                                  },
                                 ),
-                                onPressed: () {
-                                  Navigator.pop(context);
-                                },
-                              ),
+                                TextButton(
+                                  child: Text(
+                                    'تماس',
+                                    style: TextStyle(
+                                        fontSize: 17,
+                                        color: Color(0xff18004d)),
+                                  ),
+                                  onPressed: () {
+                                    _makePhoneCall('${selectedAd['phoneNo']}');
+                                  },
+                                ),
+                              ],
                             );
                           });
                     }
-                    else if(loggedInUser == null){
+                    else if(currentUser.CurrentUser == null){
                       showDialog(
                           context: context,
                           builder: (context) {

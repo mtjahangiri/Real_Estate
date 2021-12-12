@@ -5,7 +5,7 @@ import 'package:modal_progress_hud/modal_progress_hud.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:real_estate/constants.dart';
 import 'package:real_estate/screens/home_screen.dart';
-import 'package:real_estate/screens/login_Screen.dart';
+import 'package:real_estate/screens/login_screen.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path/path.dart' as Path;
 import 'package:persian_fonts/persian_fonts.dart';
@@ -31,7 +31,7 @@ class _AddAdScreenState extends State<AddAdScreen> {
       details = '',
       city = 'تهران',
       condition = 'فروش',
-  type = 'آپارتمان مسکونی';
+      type = 'آپارتمان مسکونی';
 
   Future chooseFile() async {
     await ImagePicker.pickImage(source: ImageSource.gallery, imageQuality: 30).then((image) {
@@ -272,9 +272,9 @@ class _AddAdScreenState extends State<AddAdScreen> {
                         'year': year,
                         'details': details,
                         'image': '${Path.basename(_image.path)}',
-                        'phoneNo': loggedInUser.photoURL,
-                        'ownerName': loggedInUser.displayName,
-                        'owner': loggedInUser.uid,
+                        'phoneNo': currentUser.CurrentUser.photoURL,
+                        'ownerName': currentUser.CurrentUser.displayName,
+                        'owner': currentUser.CurrentUser.uid,
                         'date': format(Jalali.now()),
                         'date1': DateTime.now(),
                       });

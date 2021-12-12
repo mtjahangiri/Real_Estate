@@ -3,16 +3,16 @@ import 'package:real_estate/components/ad_image.dart';
 import 'package:real_estate/screens/ad_manage_screen.dart';
 import 'house_detail_screen.dart';
 import 'addAd_screen.dart';
-import 'package:real_estate/screens/login_Screen.dart';
+import 'account_manage_screen.dart';
+import 'package:real_estate/screens/login_screen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:persian_fonts/persian_fonts.dart';
-
 
 //int index = 0;
 DocumentSnapshot selectedAd;
 
 final firestore = FirebaseFirestore.instance;
-
 
 class HomeScreen extends StatefulWidget {
   static const String id = 'home_screen';
@@ -22,16 +22,14 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-
+  final _auth = FirebaseAuth.instance;
   String City = 'تهران', Condition = 'فروش', Type = 'آپارتمان مسکونی';
 
   Widget buildAdListItem(BuildContext context, DocumentSnapshot document) {
     return GestureDetector(
-      onTap: (){
-        selectedAd=document;
-        Navigator.pushNamed(
-            context,
-            HouseDetailScreen.id);
+      onTap: () {
+        selectedAd = document;
+        Navigator.pushNamed(context, HouseDetailScreen.id);
       },
       child: Card(
         color: Color(0xffe3e6ef),
@@ -39,39 +37,51 @@ class _HomeScreenState extends State<HomeScreen> {
           children: [
             Expanded(
               flex: 2,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Padding(
-                      padding: EdgeInsets.symmetric (vertical: 5.0 ,horizontal: 15),
-                      child: Text(
-                        document['title'],
-                        style: PersianFonts.Samim.copyWith(fontWeight: FontWeight.w700,fontSize: 18 , color: Colors.black),
-                      ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Padding(
+                    padding:
+                        EdgeInsets.symmetric(vertical: 5.0, horizontal: 15),
+                    child: Text(
+                      document['title'],
+                      style: PersianFonts.Samim.copyWith(
+                          fontWeight: FontWeight.w700,
+                          fontSize: 18,
+                          color: Colors.black),
                     ),
-                    SizedBox( height: 25, ),
-                    Padding(
-                      padding: EdgeInsets.symmetric (vertical: 5.0 ,horizontal: 20),
-                      child: Text(
-                        "${document['price']} تومان",
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        style: PersianFonts.Shabnam.copyWith(fontWeight: FontWeight.w700 , color: Colors.black),
-                      ),
+                  ),
+                  SizedBox(
+                    height: 25,
+                  ),
+                  Padding(
+                    padding:
+                        EdgeInsets.symmetric(vertical: 5.0, horizontal: 20),
+                    child: Text(
+                      "${document['price']} تومان",
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: PersianFonts.Shabnam.copyWith(
+                          fontWeight: FontWeight.w700, color: Colors.black),
                     ),
-                    Padding(
-                      padding: EdgeInsets.symmetric (vertical: 5.0 ,horizontal: 20),
-                      child: Text(
-                        document['date'],
-                        style: PersianFonts.Shabnam.copyWith(fontWeight: FontWeight.w700 , color: Colors.black),
-                      ),
+                  ),
+                  Padding(
+                    padding:
+                        EdgeInsets.symmetric(vertical: 5.0, horizontal: 20),
+                    child: Text(
+                      document['date'],
+                      style: PersianFonts.Shabnam.copyWith(
+                          fontWeight: FontWeight.w700, color: Colors.black),
                     ),
-                  ],
-                ),
+                  ),
+                ],
+              ),
             ),
             Expanded(
                 flex: 1,
-                child: AdImage(imagePath: "images/${document['image']}",)),
+                child: AdImage(
+                  imagePath: "images/${document['image']}",
+                )),
           ],
         ),
       ),
@@ -85,7 +95,11 @@ class _HomeScreenState extends State<HomeScreen> {
         appBar: AppBar(
           backgroundColor: Colors.white,
           actions: <Widget>[],
-          title: Center(child: Text("Real Estate", style: TextStyle(color: Color(0xff18004d)),)),
+          title: Center(
+              child: Text(
+            "Real Estate",
+            style: TextStyle(color: Color(0xff18004d)),
+          )),
         ),
         backgroundColor: Colors.white,
         body: Column(
@@ -169,7 +183,9 @@ class _HomeScreenState extends State<HomeScreen> {
               child: StreamBuilder(
                 stream: firestore
                     .collection('Ads')
-                    .where('type', isEqualTo: Type).where('condition', isEqualTo: Condition).where('city', isEqualTo: City)
+                    .where('type', isEqualTo: Type)
+                    .where('condition', isEqualTo: Condition)
+                    .where('city', isEqualTo: City)
                     .snapshots(),
                 builder: (context, snapshot) {
                   if (!snapshot.hasData) return const Text('Loading...');
@@ -203,7 +219,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                   IconButton(
                     onPressed: () {
-                      if(loggedInUser == null){
+                      if (currentUser.CurrentUser == null) {
                         showDialog(
                             context: context,
                             builder: (context) {
@@ -239,8 +255,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                 ],
                               );
                             });
-                      }
-                      else Navigator.pushNamed(context, AddAdScreen.id);
+                      } else
+                        Navigator.pushNamed(context, AddAdScreen.id);
                     },
                     icon: Icon(
                       Icons.add_circle,
@@ -250,54 +266,10 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                   IconButton(
                     onPressed: () {
-                      if(loggedInUser == null){
-                        showDialog(
-                            context: context,
-                            builder: (context) {
-                              return AlertDialog(
-                                title: Text('ابتدا وارد حساب کاربری خود شوید'),
-                                titleTextStyle: TextStyle(
-                                    fontSize: 17, color: Colors.black),
-                                actions: [
-                                  TextButton(
-                                    child: Text(
-                                      'لغو',
-                                      style: TextStyle(
-                                          fontSize: 17,
-                                          color: Color(0xff18004d)),
-                                    ),
-                                    onPressed: () {
-                                      Navigator.pop(context);
-                                    },
-                                  ),
-                                  TextButton(
-                                    child: Text(
-                                      'ورود به حساب',
-                                      style: TextStyle(
-                                          fontSize: 17,
-                                          color: Color(0xff18004d)),
-                                    ),
-                                    onPressed: () {
-                                      Navigator.pop(context);
-                                      Navigator.pushNamed(
-                                          context, LoginScreen.id);
-                                    },
-                                  ),
-                                ],
-                              );
-                            });
-                      }
-                      else Navigator.pushNamed(context, ManageScreen.id);
-                    },
-                    icon: Icon(
-                      Icons.notes_sharp,
-                      color: Color(0xff18004d),
-                      size: 35,
-                    ),
-                  ),
-                  IconButton(
-                    onPressed: () {
-                      Navigator.pushNamed(context, LoginScreen.id);
+                      if (currentUser.CurrentUser == null)
+                        Navigator.pushNamed(context, LoginScreen.id);
+                      if(currentUser.CurrentUser != null)
+                        Navigator.pushNamed(context, AccountScreen.id);
                     },
                     icon: Icon(
                       Icons.person_outline,

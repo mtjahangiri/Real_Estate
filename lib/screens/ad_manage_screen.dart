@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:real_estate/components/ad_image.dart';
 import 'house_detail_screen.dart';
-import 'package:real_estate/screens/login_Screen.dart';
+import 'package:real_estate/screens/login_screen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:persian_fonts/persian_fonts.dart';
 import 'home_screen.dart';
@@ -143,7 +143,7 @@ class _ManageScreenState extends State<ManageScreen> {
           child: StreamBuilder(
             stream: firestore
                 .collection('Ads')
-                .where('owner', isEqualTo: loggedInUser.uid)
+                .where('owner', isEqualTo: currentUser.CurrentUser.uid)
                 .snapshots(),
             builder: (context, snapshot) {
               if (!snapshot.hasData) return const Text('Loading...');

@@ -3,9 +3,10 @@ import 'package:firebase_core/firebase_core.dart';
 import 'screens/home_screen.dart';
 import 'screens/addAd_screen.dart';
 import 'package:real_estate/screens/house_detail_screen.dart';
-import 'package:real_estate/screens/login_Screen.dart';
+import 'package:real_estate/screens/login_screen.dart';
 import 'screens/registration_screen.dart';
 import 'screens/ad_manage_screen.dart';
+import 'screens/account_manage_screen.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
 Future<void> main() async {
@@ -48,6 +49,7 @@ class RealEstate extends StatelessWidget {
         AddAdScreen.id: (context) => AddAdScreen(),
         RegistrationScreen.id: (context) => RegistrationScreen(),
         ManageScreen.id: (context) => ManageScreen(),
+        AccountScreen.id: (context) => AccountScreen(),
       },
     );
   }

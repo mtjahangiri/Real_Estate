@@ -5,7 +5,23 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:real_estate/constants.dart';
 import 'registration_screen.dart';
 
-User loggedInUser;
+class UserProvider extends ChangeNotifier{
+  User CurrentUser = null;
+  UserProvider(this.CurrentUser);
+
+  void login(User current){
+    this.CurrentUser= current;
+    notifyListeners();
+  }
+
+  void logout(){
+    this.CurrentUser = null;
+    notifyListeners();
+  }
+}
+
+UserProvider currentUser = UserProvider(null);
+
 
 class LoginScreen extends StatefulWidget {
   static const String id = 'login_screen';
@@ -24,9 +40,7 @@ class _LoginScreenState extends State<LoginScreen> {
     try {
       final user = await _auth.currentUser;
       if (user != null) {
-        loggedInUser = user;
-        print(loggedInUser.email);
-        print(loggedInUser.displayName);
+        currentUser.login(user);
       }
     } catch (e) {
       print(e);
@@ -163,7 +177,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   title: 'خروج از حساب کاربری',
                   onPressed: () {
                     _auth.signOut();
-                    loggedInUser = null;
+                    currentUser.logout();
                   },
                 ),
               ],
